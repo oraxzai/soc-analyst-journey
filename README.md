@@ -17,7 +17,7 @@ threat hunting, and detection engineering through a 14-project Blue Team roadmap
 | Metric | Value |
 |--------|-------|
 | **Current Project** | 01 — Live SOC Alert Monitoring |
-| **Alerts Triaged** | 0 / 10 |
+| **Alerts Triaged** | 1 / 10 |
 | **Projects Complete** | 0 / 14 |
 | **Started** | October 1, 2026 |
 
