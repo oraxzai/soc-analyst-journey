@@ -22,10 +22,10 @@ Learn the real-world SOC alert triage workflow:
 |------|---------|
 | LetsDefend | SOC simulation platform — alert queue, investigation channel, playbooks |
 | VirusTotal | URL, IP, file hash reputation lookups |
-| AbuseIPDB | IP address reputation |
+| AbuseIPDB | IP address abuse history |
 | urlscan.io | URL/domain analysis |
 | MITRE ATT&CK | Threat technique mapping |
-| Log Management (LetsDefend) | Internal log correlation |
+| Log Management (LetsDefend) | Internal log correlation (Basic + Pro views) |
 
 ---
 
@@ -36,7 +36,7 @@ Learn the real-world SOC alert triage workflow:
 | 1 | SOC101 - Phishing Mail Detected (EventID 87) | Medium | ✅ True Positive | 2026-10-02 | [log](./triage-log.md#alert-1--soc101-phishing-mail-detected) |
 | 2 | SOC205 - Malicious Macro Executed (EventID 231) | High | ✅ True Positive | 2026-10-03 | [log](./triage-log.md#alert-2--soc205-malicious-macro-has-been-executed) |
 | 3 | SOC325 - Unauthorized Cloud Region Access (EventID 303) | Low | ✅ True Positive | 2026-10-04 | [log](./triage-log.md#alert-3--soc325-unauthorized-cloud-region-access-attempt) |
-| 4 | *(pending)* | | | | |
+| 4 | SOC276 - Account Discovery Attempt (EventID 251) | **Critical** | ✅ True Positive | 2026-10-06 | [log](./triage-log.md#alert-4--soc276-account-discovery-attempt-detected) |
 | 5 | *(pending)* | | | | |
 | 6 | *(pending)* | | | | |
 | 7 | *(pending)* | | | | |
@@ -44,7 +44,7 @@ Learn the real-world SOC alert triage workflow:
 | 9 | *(pending)* | | | | |
 | 10 | *(pending)* | | | | |
 
-**Progress:** 3 / 10 alerts triaged (30%)
+**Progress:** 4 / 10 alerts triaged (40%)
 
 ---
 
@@ -52,13 +52,14 @@ Learn the real-world SOC alert triage workflow:
 
 | Metric | Value |
 |--------|-------|
-| Total Alerts Triaged | 3 |
-| True Positives | 3 |
+| Total Alerts Triaged | 4 |
+| True Positives | 4 |
 | False Positives | 0 |
 | Benign | 0 |
-| Average Time per Alert | ~1.8 hours (learning pace) |
-| MITRE Techniques Mapped | 12 |
-| IOCs Extracted | 8 |
+| Critical Severity Confirmed | 1 |
+| Average Time per Alert | ~2 hours (learning pace) |
+| MITRE Techniques Mapped | 15 |
+| IOCs Extracted | 12 |
 
 ---
 
@@ -75,9 +76,12 @@ Learn the real-world SOC alert triage workflow:
 | Command & Control | Ingress Tool Transfer | T1105 | #2 |
 | Command & Control | Non-Standard Port | T1571 | #2 |
 | Resource Development | Compromise Accounts | T1586 | #3 |
-| Defense Evasion | Valid Accounts | T1078 | #3 |
-| Initial Access | External Remote Services | T1133 | #3 |
+| Defense Evasion | Valid Accounts | T1078 | #3, #4 |
+| Initial Access | External Remote Services | T1133 | #3, #4 |
 | Defense Evasion | Unused/Unsupported Cloud Regions | T1535 | #3 |
+| Execution | Unix Shell | T1059.004 | #4 |
+| Credential Access | Brute Force | T1110 | #4 |
+| Discovery | Account Discovery | T1087 | #4 |
 
 ---
 
@@ -93,6 +97,10 @@ Learn the real-world SOC alert triage workflow:
 | 6 | `heg.com` | Domain | C2 domain | #2 |
 | 7 | `greyhathacker.net` | Domain | Dropper domain (messbox.exe) | #2 |
 | 8 | `134.209.145.73` | IP | Malicious source IP — DigitalOcean, India | #3 |
+| 9 | `185.107.80.128` | IP | Attacker — 79 abuse reports, NForce VPN | #4 |
+| 10 | `analyst` | Account | Compromised user account (Linux) | #4 |
+| 11 | `test` | Account | Compromised user account (Linux) | #4 |
+| 12 | `172.16.17.186` | IP | Target host — VirtuLinux | #4 |
 
 ---
 
@@ -106,6 +114,10 @@ Learn the real-world SOC alert triage workflow:
 6. **⚠️ Log search is multi-angle** — process names (`powershell.exe`) matter more than IOCs (Alert #2)
 7. **"Device Action: Blocked" tells you severity** — blocked = contained, lower severity (Alert #3)
 8. **Cloud IPs need context** — a DigitalOcean IP isn't automatically bad, but with 5+ detections + bruteforce history → confirmed malicious (Alert #3)
+9. **⚠️ Pro view > Basic view** — Basic returned 0 events; Pro view found the confirmed compromise (Alert #4)
+10. **AbuseIPDB complements VirusTotal** — VT showed 0/91, AbuseIPDB showed 79 reports (Alert #4)
+11. **"Accepted password" in SSH logs = compromise confirmed** — the smoking gun (Alert #4)
+12. **Scope = THIS alert's indicators only** — broader patterns go in notes, not scope answers (Alert #4)
 
 ---
 
@@ -118,6 +130,7 @@ All investigation evidence is stored in [`./screenshots/`](./screenshots/) — n
 | #1 | 11 screenshots — phishing triage workflow |
 | #2 | 13 screenshots — malware triage workflow |
 | #3 | 5 screenshots — cloud access attempt workflow |
+| #4 | 8 screenshots — confirmed compromise investigation |
 
 ---
 
@@ -135,14 +148,19 @@ All investigation evidence is stored in [`./screenshots/`](./screenshots/) — n
 - Email phishing investigation
 - Malware analysis (macro dropper, Logan family)
 - Cloud region access investigation
-- Threat intelligence lookups (VirusTotal, urlscan.io)
+- **Linux SSH brute force investigation**
+- **Confirmed compromise identification**
+- **Multi-tool threat intelligence correlation (VirusTotal + AbuseIPDB)**
+- **Log forensics via Pro view / raw log search**
+- Threat intelligence lookups
 - Log correlation and analysis
 - IOC extraction and classification
 - Incident response playbook execution
+- Host containment action
 - MITRE ATT&CK mapping
 - Evidence documentation with screenshots
 - Analytical writing (analyst notes, verdicts)
 
 ---
 
-*Last updated: October 4, 2026*
+*Last updated: October 6, 2026*
