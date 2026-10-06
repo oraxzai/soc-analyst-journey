@@ -23,7 +23,7 @@
 
 | 🎯 Current Project | 📊 Alerts Triaged | ✅ Projects Done | 📅 Started |
 |:---:|:---:|:---:|:---:|
-| **01 — Live SOC Monitoring** | **3 / 10** | **0 / 14** | **Oct 1, 2026** |
+| **01 — Live SOC Monitoring** | **4 / 10** | **0 / 14** | **Oct 1, 2026** |
 
 </div>
 
@@ -68,6 +68,7 @@
 
 ### Threat Intelligence
 ![VirusTotal](https://img.shields.io/badge/VirusTotal-394EFF?style=for-the-badge&logo=virustotal&logoColor=white)
+![AbuseIPDB](https://img.shields.io/badge/AbuseIPDB-CC0000?style=for-the-badge&logo=abuseipdb&logoColor=white)
 ![MISP](https://img.shields.io/badge/MISP-0A1929?style=for-the-badge&logo=misp&logoColor=white)
 ![MITRE ATT&CK](https://img.shields.io/badge/MITRE_ATT%26CK-FF0000?style=for-the-badge&logo=mitre&logoColor=white)
 
