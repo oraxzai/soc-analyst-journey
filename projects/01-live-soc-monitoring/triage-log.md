@@ -2,8 +2,8 @@
 
 Detailed writeups of each alert triaged on LetsDefend.
 
-**Progress:** 4 / 10 alerts triaged  
-**Last Updated:** October 6, 2026
+**Progress:** 5 / 10 alerts triaged  
+**Last Updated:** October 7, 2026
 
 ---
 
@@ -101,7 +101,7 @@ Severity: **High** | Confidence: High
 
 Playbook Score: 10 (75%)
 
-**Wrong Answer:** "Check If Someone Requested the C2" → I said "Not Accessed", correct was "Accessed"
+**Wrong Answer:** "Check If Someone Requested the C2" → said "Not Accessed", correct was "Accessed"
 
 **Actual evidence:** PowerShell made GET request to `http://www.greyhathacker.net/tools/messbox.exe`, permitted by proxy.
 
@@ -110,9 +110,7 @@ Playbook Score: 10 (75%)
 **Search process names FIRST, then IOCs:**
 - Tier 1: `powershell.exe`, `cmd.exe`, `wscript.exe`, `cscript.exe`, `mshta.exe`, `rundll32.exe`, `regsvr32.exe`, `wmic.exe`
 - Tier 2: File names from alert
-- Tier 3: IOCs (hash, IP, domain, URL)
-
-**Rule:** Search process names before IOCs. Always.
+- Tier 3: IOCs
 
 ---
 
@@ -136,7 +134,6 @@ Playbook Score: 10 (75%)
 | Response | 403 Forbidden |
 | Device Action | Blocked |
 | Source IP | 134.209.145.73 |
-| Destination IP | 52.15.206.21 |
 
 **MITRE:** T1586, T1078, T1133, T1535
 
@@ -156,7 +153,7 @@ Severity: Low | Confidence: High
 
 ### 💡 Lessons
 1. "Device Action: Blocked" → lower severity
-2. Cloud IPs need context (5+ detections = confirmed malicious)
+2. Cloud IPs need context
 3. Not every alert needs deep logs
 
 ---
@@ -179,91 +176,173 @@ Severity: Low | Confidence: High
 | Hostname | VirtuLinux (Ubuntu 20.04, 172.16.17.186) |
 | Command | `getent passwd` |
 | Alert Type | Unauthorized Access |
-| MITRE | T1078, T1133, T1059.004, T1110, T1087 |
 
-**L1 Note (from previous analyst):**
-> "Minutes before the alert, I saw a Brute Force attempt with different users from the IP 185.107.80.128 towards the system. However, I could not determine whether this attack was successful or not."
+**MITRE:** T1078, T1133, T1059.004, T1110, T1087
+
+**L1 Note:** Brute force attempt from `185.107.80.128` observed minutes before — success unknown.
 
 ### 🔍 Investigation
 
-#### Step 1 — Threat Intel: Attacker IP (185.107.80.128)
+**Threat Intel — 185.107.80.128:**
+- AbuseIPDB: 25% confidence, **79 reports**, last report 1 day ago
+- ASN: AS43350 (NForce Entertainment — VPN)
+- Country: Netherlands
+- VirusTotal: 0/91
 
-**AbuseIPDB:**
-- Abuse Confidence Score: **25% (Elevated)**
-- **79 reports** from 36 reporters
-- Last report: **1 day ago**
-- ISP: Serverhosting / Data Center
-- ASN: **AS43350** (NForce Entertainment B.V. — VPN provider)
-- Country: Netherlands (Breda)
+**Log Management (Pro view):**
 
-**VirusTotal:** 0/91 detections (VPN provider — reputation hidden)
+Search `accepted AND 185.107.80.128` → **3 events:**
+| Time | Action | User |
+|------|--------|------|
+| 08:41:56 | ✅ Accepted password | test |
+| 08:41:59 | ✅ Accepted password | analyst |
+| 08:42:28 | ✅ Accepted password | analyst |
 
-#### Step 2 — Log Management (Pro View — CRITICAL FINDING)
-
-**Search: `Raw Log contains "accepted" AND Source Address contains "185.107.80.128"` → 3 events found:**
-
-| Timestamp | Action | User | Port |
-|-----------|--------|------|------|
-| 2024-04-25 08:41:56 | ✅ **Accepted password** | test | 39131 |
-| 2024-04-25 08:41:59 | ✅ **Accepted password** | analyst | 56175 |
-| 2024-04-25 08:42:28 | ✅ **Accepted password** | analyst | 9239 |
-
-**Search: `Raw Log contains "185.107.80.128"` → 8 events found:**
-- Multiple failed passwords for: test, admin, analyst, letsdefend, kali
-- 3 successful logins (above)
-
-**Search: `Raw Log contains "accepted"` → 37 events across environment:**
-- Multiple `analyst` logins from different external IPs to different hosts
-- Suggests broader compromise pattern
+Search `accepted` → 37 events across environment (broader pattern)
 
 ### 🎯 Verdict
 
 **TRUE POSITIVE — CONFIRMED COMPROMISE**  
-Severity: **CRITICAL**  
-Confidence: High
-
-**The L1 Note's question is answered: The brute force SUCCEEDED.**
-
-### 🛡️ Actions Taken
-1. Confirmed compromise via 3 Accepted password events
-2. Contained host VirtuLinux (Containment = ON)
-3. Escalated to IR
-4. Documented broader pattern (37 events)
-
-### 📊 IOCs
-
-| IOC | Type | Notes |
-|-----|------|-------|
-| `185.107.80.128` | IP | Attacker — 79 abuse reports |
-| `analyst` | Compromised account | 2 successful logins |
-| `test` | Compromised account | 1 successful login |
-| `172.16.17.186` | Target host | VirtuLinux |
+Severity: **CRITICAL** | Confidence: High
 
 ### ⚠️ Playbook Correction
 
-Playbook Score: 25 (92%)
+Score: 25 (92%)
 
-**Wrong Answer:** "Determine the Scope" → I said "Yes", correct was "No"
+**Wrong Answer:** "Determine the Scope" → said "Yes", correct was "No"
+**Lesson:** Scope = devices affected by THIS alert's attacker IP only.
 
-**Correct logic:** Scope = devices affected by THIS alert's attacker IP (185.107.80.128). Only VirtuLinux was hit by this IP. The 37-event pattern involves OTHER IPs and is a separate finding.
-
-### 💡 Lessons Learned
-
-1. **Pro view > Basic view** — Basic returned 0 events, Pro found the smoking gun
-2. **AbuseIPDB + VirusTotal together** — VT said "clean", AbuseIPDB showed 79 reports
-3. **Scope questions = THIS alert's indicators only** — broader patterns go in notes, not scope answers
-4. **"Accepted password" in SSH logs = compromise confirmed**
-
-### 🚨 Recommended Actions (IR)
-1. URGENT: Isolate VirtuLinux (done)
-2. URGENT: Reset credentials for `analyst` and `test`
-3. Disable SSH password auth — enforce key-based auth
-4. Block 185.107.80.128 at firewall
-5. Investigate broader pattern (37 events)
-6. Check for persistence, lateral movement, data exfiltration
-7. Deploy fail2ban / SSH rate limiting
-8. Enable auditd for command logging
+### 🛡️ Actions
+1. Contained host VirtuLinux
+2. Escalated to IR
+3. Documented broader 37-event pattern
 
 ---
 
-*Last updated: October 6, 2026*
+## Alert #5 — SOC312: Unauthorized Template Modification Detected
+
+**EventID:** 290  
+**Difficulty:** Medium  
+**Severity:** High (confirmed **CRITICAL** — compromise + persistence)  
+**Date Triaged:** 2026-10-07  
+**Analyst:** Muhammad Haris (L1 SOC Trainee)
+
+---
+
+### 📋 Alert Overview
+
+| Field | Value |
+|-------|-------|
+| Rule | SOC312 - Unauthorized Template Modification Detected |
+| Hostname | Jonah (Windows 10, 172.16.17.110) |
+| Process | WINWORD.EXE |
+| Command Line | `"C:\Program Files\Microsoft Office\Office16\WINWORD.EXE" /n /f "C:\Users\LetsDefend\AppData\Roaming\Microsoft\Templates\Normal.dotm"` |
+| Type | C2 |
+| Severity | High |
+
+**MITRE:** T1078, T1133, T1059.005, T1137, T1221, T1110, T1071.001
+
+**L1 Note:**
+> "I could not determine whether the command that caused the alert belonged to the attacker. However, I saw a brute force attempt from the IP '181.214.131.108' minutes before the alert occurred."
+
+### 🔍 Investigation
+
+#### Step 1 — Threat Intelligence (Attacker IP: 181.214.131.108)
+
+**AbuseIPDB:**
+- Abuse Confidence Score: **11% (Caution)**
+- **33 reports** from 16 reporters
+- Last report: **1 week ago**
+- ISP: Data Center / Web Hosting
+- ASN: **AS199218**
+- Country: 🇺🇸 USA (New York)
+
+#### Step 2 — Log Management (Pro view)
+
+**Search `Raw Log contains "181.214.131.108"` → 10 events:**
+
+| Time | EventID | Result | User |
+|------|---------|--------|------|
+| 15:19:08 | 4625 | ❌ Failed | analyst |
+| 15:19:09 | 4625 | ❌ Failed | test |
+| 15:25:12 | 4625 | ❌ Failed | Atlanta |
+| 15:25:13 | 4625 | ❌ Failed | Hitman |
+| 15:25:14 | 4625 | ❌ Failed | analyst |
+| 15:25:16 | 4625 | ❌ Failed | test |
+| **15:27:20** | **4624** | ✅ **SUCCESS** | **User (RDP port 3389)** |
+
+**Search `Raw Log contains "Normal.dotm"` → 1 event:**
+- 15:31:02 → WINWORD.EXE launched, PID 6944
+- Modified: `C:\Users\LetsDefend\AppData\Roaming\Microsoft\Templates\Normal.dotm`
+
+#### Step 3 — Attack Chain Confirmed
+
+| Step | Time | Action |
+|------|------|--------|
+| 1 | 15:19-15:25 | RDP brute force (9 failed logins) |
+| 2 | 15:27:20 | ✅ Successful RDP login from attacker IP |
+| 3 | 15:31:02 | WINWORD modifies Normal.dotm (**4 min later**) |
+
+**Timing correlation = conclusive proof of compromise.**
+
+### 🎯 Verdict
+
+**TRUE POSITIVE — CONFIRMED COMPROMISE + PERSISTENCE**  
+Severity: **CRITICAL**  
+Confidence: High
+
+**Playbook Score:** 30 / **100% success rate** ⭐
+
+### 🛡️ Actions Taken
+
+| Step | Action |
+|------|--------|
+| 1 | Confirmed compromise via successful RDP login |
+| 2 | Identified Normal.dotm persistence |
+| 3 | Contained host Jonah |
+| 4 | Logged 2 IOCs (IP + hash) |
+| 5 | Wrote full analyst note |
+| 6 | Submitted: True Positive |
+| 7 | Escalated to IR |
+
+### 📊 IOCs
+
+| # | IOC | Type | Notes |
+|---|-----|------|-------|
+| 1 | `181.214.131.108` | IP | Attacker — 33 abuse reports |
+| 2 | `5D75D0EA8BBBB5B652F7B72CF728C00322BD486D54A5C49...` | Hash | WINWORD.EXE launcher |
+| 3 | `Normal.dotm` | File | Modified for persistence |
+
+### 🧭 MITRE ATT&CK
+
+| Tactic | Technique | ID |
+|--------|-----------|-----|
+| Credential Access | Brute Force | T1110 |
+| Defense Evasion | Valid Accounts | T1078 |
+| Initial Access | External Remote Services (RDP) | T1133 |
+| Persistence | Office Template Macros | T1137.001 |
+| Defense Evasion | Template Injection | T1221 |
+| Execution | Visual Basic | T1059.005 |
+| C2 | Web Protocols | T1071.001 |
+
+### 💡 Lessons Learned
+
+1. **Timing correlation proves causation** — successful login 4 min before template modification
+2. **`Normal.dotm` = global template = full persistence** — every document runs the macro
+3. **RDP brute force (port 3389) is common in enterprise** — always check successful EventID 4624
+4. **100% playbook score is achievable** with methodical investigation
+
+### 🚨 Recommended Actions (IR)
+
+1. URGENT: Reset all user credentials on Jonah
+2. URGENT: Restore Normal.dotm from clean backup
+3. Block attacker IP 181.214.131.108 at firewall/RDP
+4. Disable external RDP — require VPN + MFA
+5. Hunt for lateral movement
+6. Check for other persistence (Run keys, scheduled tasks, services)
+7. Investigate user accounts with successful logins from 181.214.131.108
+8. Review logs for data accessed during the 4-minute window
+
+---
+
+*Last updated: October 7, 2026*
