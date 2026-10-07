@@ -37,14 +37,14 @@ Learn the real-world SOC alert triage workflow:
 | 2 | SOC205 - Malicious Macro Executed (EventID 231) | High | ✅ True Positive | 2026-10-03 | [log](./triage-log.md#alert-2--soc205-malicious-macro-has-been-executed) |
 | 3 | SOC325 - Unauthorized Cloud Region Access (EventID 303) | Low | ✅ True Positive | 2026-10-04 | [log](./triage-log.md#alert-3--soc325-unauthorized-cloud-region-access-attempt) |
 | 4 | SOC276 - Account Discovery Attempt (EventID 251) | **Critical** | ✅ True Positive | 2026-10-06 | [log](./triage-log.md#alert-4--soc276-account-discovery-attempt-detected) |
-| 5 | *(pending)* | | | | |
+| 5 | SOC312 - Unauthorized Template Modification (EventID 290) | **Critical** | ✅ True Positive | 2026-10-07 | [log](./triage-log.md#alert-5--soc312-unauthorized-template-modification-detected) |
 | 6 | *(pending)* | | | | |
 | 7 | *(pending)* | | | | |
 | 8 | *(pending)* | | | | |
 | 9 | *(pending)* | | | | |
 | 10 | *(pending)* | | | | |
 
-**Progress:** 4 / 10 alerts triaged (40%)
+**Progress:** 5 / 10 alerts triaged (50%)
 
 ---
 
@@ -52,14 +52,15 @@ Learn the real-world SOC alert triage workflow:
 
 | Metric | Value |
 |--------|-------|
-| Total Alerts Triaged | 4 |
-| True Positives | 4 |
+| Total Alerts Triaged | 5 |
+| True Positives | 5 |
 | False Positives | 0 |
 | Benign | 0 |
-| Critical Severity Confirmed | 1 |
+| Critical Severity Confirmed | 2 |
+| Confirmed Compromises | 2 |
 | Average Time per Alert | ~2 hours (learning pace) |
-| MITRE Techniques Mapped | 15 |
-| IOCs Extracted | 12 |
+| MITRE Techniques Mapped | 22 |
+| IOCs Extracted | 15 |
 
 ---
 
@@ -76,12 +77,16 @@ Learn the real-world SOC alert triage workflow:
 | Command & Control | Ingress Tool Transfer | T1105 | #2 |
 | Command & Control | Non-Standard Port | T1571 | #2 |
 | Resource Development | Compromise Accounts | T1586 | #3 |
-| Defense Evasion | Valid Accounts | T1078 | #3, #4 |
-| Initial Access | External Remote Services | T1133 | #3, #4 |
+| Defense Evasion | Valid Accounts | T1078 | #3, #4, #5 |
+| Initial Access | External Remote Services | T1133 | #3, #4, #5 |
 | Defense Evasion | Unused/Unsupported Cloud Regions | T1535 | #3 |
 | Execution | Unix Shell | T1059.004 | #4 |
-| Credential Access | Brute Force | T1110 | #4 |
+| Credential Access | Brute Force | T1110 | #4, #5 |
 | Discovery | Account Discovery | T1087 | #4 |
+| Persistence | Office Template Macros | T1137.001 | #5 |
+| Defense Evasion | Template Injection | T1221 | #5 |
+| Execution | Visual Basic | T1059.005 | #5 |
+| Command & Control | Web Protocols | T1071.001 | #5 |
 
 ---
 
@@ -101,6 +106,9 @@ Learn the real-world SOC alert triage workflow:
 | 10 | `analyst` | Account | Compromised user account (Linux) | #4 |
 | 11 | `test` | Account | Compromised user account (Linux) | #4 |
 | 12 | `172.16.17.186` | IP | Target host — VirtuLinux | #4 |
+| 13 | `181.214.131.108` | IP | Attacker — 33 abuse reports, RDP brute force | #5 |
+| 14 | `5D75D0EA8BBBB5B652F7B72CF728C00322BD486D54A5C49...` | Hash | WINWORD.EXE launcher hash | #5 |
+| 15 | `Normal.dotm` | File | Office template modified for persistence | #5 |
 
 ---
 
@@ -118,6 +126,10 @@ Learn the real-world SOC alert triage workflow:
 10. **AbuseIPDB complements VirusTotal** — VT showed 0/91, AbuseIPDB showed 79 reports (Alert #4)
 11. **"Accepted password" in SSH logs = compromise confirmed** — the smoking gun (Alert #4)
 12. **Scope = THIS alert's indicators only** — broader patterns go in notes, not scope answers (Alert #4)
+13. **⭐ Timing correlation proves causation** — successful RDP login 4 minutes before template modification (Alert #5)
+14. **`Normal.dotm` = global Word template = full persistence** — every document runs the macro (Alert #5)
+15. **RDP brute force (port 3389) is common in enterprise** — always check for successful EventID 4624 (Alert #5)
+16. **100% playbook score is achievable** with methodical investigation (Alert #5)
 
 ---
 
@@ -131,6 +143,7 @@ All investigation evidence is stored in [`./screenshots/`](./screenshots/) — n
 | #2 | 13 screenshots — malware triage workflow |
 | #3 | 5 screenshots — cloud access attempt workflow |
 | #4 | 8 screenshots — confirmed compromise investigation |
+| #5 | 9 screenshots — RDP brute force + template persistence |
 
 ---
 
@@ -149,18 +162,20 @@ All investigation evidence is stored in [`./screenshots/`](./screenshots/) — n
 - Malware analysis (macro dropper, Logan family)
 - Cloud region access investigation
 - **Linux SSH brute force investigation**
+- **Windows RDP brute force investigation**
 - **Confirmed compromise identification**
+- **Office template persistence investigation**
 - **Multi-tool threat intelligence correlation (VirusTotal + AbuseIPDB)**
 - **Log forensics via Pro view / raw log search**
+- **Incident response playbook execution (100% score achieved)**
+- **Host containment action**
 - Threat intelligence lookups
 - Log correlation and analysis
 - IOC extraction and classification
-- Incident response playbook execution
-- Host containment action
-- MITRE ATT&CK mapping
+- MITRE ATT&CK mapping (19 techniques)
 - Evidence documentation with screenshots
 - Analytical writing (analyst notes, verdicts)
 
 ---
 
-*Last updated: October 6, 2026*
+*Last updated: October 7, 2026*
