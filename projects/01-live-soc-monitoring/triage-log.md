@@ -2,7 +2,7 @@
 
 Detailed writeups of each alert triaged on LetsDefend.
 
-**Progress:** 5 / 10 alerts triaged  
+**Progress:** 6 / 10 alerts triaged  
 **Last Updated:** October 7, 2026
 
 ---
@@ -238,7 +238,6 @@ Score: 25 (92%)
 | Process | WINWORD.EXE |
 | Command Line | `"C:\Program Files\Microsoft Office\Office16\WINWORD.EXE" /n /f "C:\Users\LetsDefend\AppData\Roaming\Microsoft\Templates\Normal.dotm"` |
 | Type | C2 |
-| Severity | High |
 
 **MITRE:** T1078, T1133, T1059.005, T1137, T1221, T1110, T1071.001
 
@@ -253,7 +252,6 @@ Score: 25 (92%)
 - Abuse Confidence Score: **11% (Caution)**
 - **33 reports** from 16 reporters
 - Last report: **1 week ago**
-- ISP: Data Center / Web Hosting
 - ASN: **AS199218**
 - Country: 🇺🇸 USA (New York)
 
@@ -269,7 +267,7 @@ Score: 25 (92%)
 | 15:25:13 | 4625 | ❌ Failed | Hitman |
 | 15:25:14 | 4625 | ❌ Failed | analyst |
 | 15:25:16 | 4625 | ❌ Failed | test |
-| **15:27:20** | **4624** | ✅ **SUCCESS** | **User (RDP port 3389)** |
+| **15:27:20** | **4624** | ✅ **SUCCESS** | **RDP port 3389** |
 
 **Search `Raw Log contains "Normal.dotm"` → 1 event:**
 - 15:31:02 → WINWORD.EXE launched, PID 6944
@@ -280,7 +278,7 @@ Score: 25 (92%)
 | Step | Time | Action |
 |------|------|--------|
 | 1 | 15:19-15:25 | RDP brute force (9 failed logins) |
-| 2 | 15:27:20 | ✅ Successful RDP login from attacker IP |
+| 2 | 15:27:20 | ✅ Successful RDP login |
 | 3 | 15:31:02 | WINWORD modifies Normal.dotm (**4 min later**) |
 
 **Timing correlation = conclusive proof of compromise.**
@@ -294,54 +292,166 @@ Confidence: High
 **Playbook Score:** 30 / **100% success rate** ⭐
 
 ### 🛡️ Actions Taken
+1. Confirmed compromise via successful RDP login
+2. Identified Normal.dotm persistence
+3. Contained host Jonah
+4. Logged 2 IOCs (IP + hash)
 
-| Step | Action |
-|------|--------|
-| 1 | Confirmed compromise via successful RDP login |
-| 2 | Identified Normal.dotm persistence |
-| 3 | Contained host Jonah |
-| 4 | Logged 2 IOCs (IP + hash) |
-| 5 | Wrote full analyst note |
-| 6 | Submitted: True Positive |
-| 7 | Escalated to IR |
+### 💡 Lessons Learned
+1. **Timing correlation proves causation**
+2. **`Normal.dotm` = full persistence**
+3. **RDP brute force (port 3389) is common in enterprise**
+
+---
+
+## Alert #6 — SOC293: Exfiltration Over Pastebin Detected
+
+**EventID:** 269  
+**Difficulty:** Medium  
+**Severity:** High (confirmed **CRITICAL** — data exfiltration)  
+**Date Triaged:** 2026-10-07  
+**Analyst:** Muhammad Haris (L1 SOC Trainee)
+
+---
+
+### 📋 Alert Overview
+
+| Field | Value |
+|-------|-------|
+| Rule | SOC293 - Exfiltration Over Pastebin Detected |
+| Hostname | **Gabriela** (Windows 10, 172.16.17.63) |
+| File Name | `system_users.ps1` |
+| File Path | `C:\Users\LetsDefend\Downloads\quick-fix\system_users.ps1` |
+| Command | `powershell.exe -ExecutionPolicy Bypass -File .\system_users.ps1` |
+| Device Action | **Allowed** ⚠️ |
+
+**MITRE:** T1033 (System Owner/User Discovery), T1567 (Exfiltration Over Web Service)
+
+**L1 Note:**
+> "PowerShell script 'system_users.ps1' connects to an external URL (pastebin.com). I'm escalating this alert for further analysis to determine the root cause and if it is malicious."
+
+### 🔍 Investigation
+
+#### Step 1 — Email Origin (Phishing Email)
+
+**From:** `info@dachfix.com`  
+**To:** `Gabriela@letsdefend.io`  
+**Subject:** "Download and Apply the Critical Fix for Device Issues"  
+**Sender IP:** `103.145.252.87`  
+**Date:** 2024-06-26 08:14:00  
+**Attachment:** `Quick-Fix.zip`
+
+**Phishing red flags:**
+- Urgency ("Immediate Action Needed")
+- Fear ("Failure to do so may result in performance issues")
+- Generic greeting ("Dear Team")
+- External sender (dachfix.com)
+- Malicious attachment
+
+**Sender IP reputation (VirusTotal):**
+- **8/92 vendors flag MALICIOUS**
+- BitDefender → Phishing
+- Emisoft → Malware
+- Fortinet → Malware
+- G-Data → Phishing
+- Country: 🇻🇳 Vietnam
+- ASN: AS135905
+
+#### Step 2 — File Download from Cloud
+
+**Log Management:**
+- Time: 2024-06-26 09:15:39
+- Process: `chrome.exe`
+- URL: `https://files-ld.s3.us-east-2.amazonaws.com/quick-zip.fix`
+- Destination: `3.5.128.11:443` (AWS S3)
+- Device Action: Allowed
+
+**File Hash:** `2f2d8121d6b351a32a5c55995450200f3cafd3d26b2cf5f646cd3a80f175450e`
+- VirusTotal: 1/51 detections
+- **Popular Threat Label:** `lnkscript`
+- Tags: `detect-debug-environment`, `long-sleeps`, `checks-user-input`
+- Family: LNKScript
+
+#### Step 3 — PowerShell Execution (Discovery)
+
+**Log Management:**
+- Time: 2024-06-26 09:16:40
+- Process: `powershell.exe`
+- Command: `-ExecutionPolicy Bypass -File .\system_users.ps1`
+- **T1033 — System Owner/User Discovery** (script enumerated system users)
+
+#### Step 4 — Data Exfiltration to Pastebin
+
+**Log Management — DNS:**
+- Time: 2024-06-26 09:16:40
+- Type: DNS Query
+- Source: `172.16.17.63:32522`
+- Destination: `104.20.3.235:53`
+- QueryName: `pastebin.com`
+
+**Log Management — Firewall:**
+- Time: 2024-06-26 09:16:40
+- Source: `172.16.17.63`
+- Destination: `104.20.3.235:443` (HTTPS)
+- Image: `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
+- Device Action: **ALLOWED** → Data left network
+
+#### Step 5 — Full Attack Chain
+
+| Time | Event |
+|------|-------|
+| 08:14:00 | Phishing email delivered |
+| 09:15:39 | Chrome downloads `quick-zip.fix` from AWS S3 |
+| 09:16:40 | PowerShell runs `system_users.ps1` with bypass |
+| 09:16:40 | DNS query for `pastebin.com` |
+| 09:16:40 | HTTPS upload to Pastebin → **DATA LEAKED** |
+
+**Total: ~62 minutes from phishing to exfiltration.**
+
+### 🎯 Verdict
+
+**TRUE POSITIVE — CONFIRMED DATA EXFILTRATION**  
+Severity: **CRITICAL**  
+Confidence: High
 
 ### 📊 IOCs
 
-| # | IOC | Type | Notes |
-|---|-----|------|-------|
-| 1 | `181.214.131.108` | IP | Attacker — 33 abuse reports |
-| 2 | `5D75D0EA8BBBB5B652F7B72CF728C00322BD486D54A5C49...` | Hash | WINWORD.EXE launcher |
-| 3 | `Normal.dotm` | File | Modified for persistence |
+| # | IOC | Type | Context |
+|---|-----|------|---------|
+| 1 | `info@dachfix.com` | E-mail Sender | Phishing sender |
+| 2 | `103.145.252.87` | IP | Sender SMTP — 8/92 malicious, Vietnam |
+| 3 | `dachfix.com` | E-mail Domain | Phishing domain |
+| 4 | `https://files-ld.s3.us-east-2.amazonaws.com/quick-zip.fix` | URL | Malware download |
+| 5 | `2f2d8121d6b351a32a5c55995450200f3cafd3d26b2cf5f646cd3a80f175450e` | SHA256 | Malicious ZIP (lnkscript) |
+| 6 | `quick-fix.zip` / `quick-zip.fix` | File | Deceptive delivery filename |
+| 7 | `system_users.ps1` | File | Malicious script |
+| 8 | `pastebin.com` | Domain | Exfiltration destination |
+| 9 | `104.20.3.235` | IP | Pastebin/Cloudflare |
 
 ### 🧭 MITRE ATT&CK
 
 | Tactic | Technique | ID |
 |--------|-----------|-----|
-| Credential Access | Brute Force | T1110 |
-| Defense Evasion | Valid Accounts | T1078 |
-| Initial Access | External Remote Services (RDP) | T1133 |
-| Persistence | Office Template Macros | T1137.001 |
-| Defense Evasion | Template Injection | T1221 |
-| Execution | Visual Basic | T1059.005 |
-| C2 | Web Protocols | T1071.001 |
+| Initial Access | Phishing: Spearphishing Attachment | T1566.001 |
+| Execution | User Execution: Malicious File | T1204.002 |
+| Execution | PowerShell | T1059.001 |
+| Persistence | Shortcut Modification (LNKScript) | T1547.009 |
+| Discovery | System Owner/User Discovery | T1033 |
+| Exfiltration | Exfiltration Over Web Service | T1567.002 |
+
+### 🛡️ Actions Taken
+1. Confirmed phishing email as delivery vector
+2. Traced malicious download from AWS S3
+3. Confirmed PowerShell execution with bypass
+4. Confirmed data upload to Pastebin
+5. Contained host Gabriela
 
 ### 💡 Lessons Learned
-
-1. **Timing correlation proves causation** — successful login 4 min before template modification
-2. **`Normal.dotm` = global template = full persistence** — every document runs the macro
-3. **RDP brute force (port 3389) is common in enterprise** — always check successful EventID 4624
-4. **100% playbook score is achievable** with methodical investigation
-
-### 🚨 Recommended Actions (IR)
-
-1. URGENT: Reset all user credentials on Jonah
-2. URGENT: Restore Normal.dotm from clean backup
-3. Block attacker IP 181.214.131.108 at firewall/RDP
-4. Disable external RDP — require VPN + MFA
-5. Hunt for lateral movement
-6. Check for other persistence (Run keys, scheduled tasks, services)
-7. Investigate user accounts with successful logins from 181.214.131.108
-8. Review logs for data accessed during the 4-minute window
+1. **Phishing emails with "urgent fix" themes are high-risk**
+2. **"quick-fix" and similar filenames are social engineering lures**
+3. **LNKScript family uses shortcut files for execution**
+4. **Pastebin is a common exfiltration destination** — always check outbound HTTPS to pastebin.com
+5. **Chrome.exe downloads can still be malicious** — user-initiated ≠ safe
 
 ---
 
