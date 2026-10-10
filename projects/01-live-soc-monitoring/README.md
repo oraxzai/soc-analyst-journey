@@ -1,240 +1,274 @@
-# Project 01 — Live SOC Alert Monitoring
+<div align="center">
 
-**Status:** 🔄 In Progress (9/10)  
-**Platform:** LetsDefend  
-**Started:** October 1, 2026  
-**Goal:** Triage 10 live SOC alerts and document each one with structured investigation notes, IOC extraction, and MITRE ATT&CK mappings.
+# 🛡️ PROJECT 01 — LIVE SOC ALERT MONITORING
 
----
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=22&pause=1000&color=36BCF7&center=true&vCenter=true&width=700&lines=%F0%9F%9A%A8+10+Alerts+Triaged;%F0%9F%94%B4+5+Compromises+Confirmed;%F0%9F%9B%A1%EF%B8%8F+2+Ransomware+Attacks+Contained;%F0%9F%A7%AC+1+Supply+Chain+Backdoor+Exposed" alt="Typing SVG" />
 
-## 🎯 Objective
+[![Status](https://img.shields.io/badge/Status-COMPLETE-brightgreen?style=for-the-badge&logo=checkmarx&logoColor=white)](#)
+[![Alerts](https://img.shields.io/badge/Alerts-10%2F10-red?style=for-the-badge&logo=letsdefend&logoColor=white)](#)
+[![Platform](https://img.shields.io/badge/Platform-LetsDefend-00B4D8?style=for-the-badge&logo=letsdefend&logoColor=white)](#)
+[![Duration](https://img.shields.io/badge/Duration-10%20Days-blue?style=for-the-badge&logo=clockify&logoColor=white)](#)
 
-Learn the real-world SOC alert triage workflow:
-- Receive alert → investigate → correlate evidence → classify → document
-- Build the analyst mindset: "what is the evidence telling me?"
-- This is the **#1 daily task** of a SOC L1 analyst
+**Started:** October 1, 2026 | **Completed:** October 10, 2026
 
----
-
-## 🧰 Tools Used
-
-| Tool | Purpose |
-|------|---------|
-| LetsDefend | SOC simulation platform — alert queue, investigation channel, playbooks |
-| VirusTotal | URL, IP, file hash reputation lookups |
-| AbuseIPDB | IP address abuse history |
-| urlscan.io | URL/domain analysis |
-| ID Ransomware / Crypto Sheriff | Ransomware family identification |
-| MITRE ATT&CK | Threat technique mapping |
-| Log Management (LetsDefend) | Internal log correlation (Basic + Pro views) |
+</div>
 
 ---
 
-## 📋 Alert Progress
+## 🎯 MISSION OBJECTIVE
 
-| # | Alert | Severity | Verdict | Date | Log |
-|---|-------|----------|---------|------|-----|
-| 1 | SOC101 - Phishing Mail Detected (EventID 87) | Medium | ✅ True Positive | 2026-10-02 | [log](./triage-log.md#alert-1--soc101-phishing-mail-detected) |
-| 2 | SOC205 - Malicious Macro Executed (EventID 231) | High | ✅ True Positive | 2026-10-03 | [log](./triage-log.md#alert-2--soc205-malicious-macro-executed) |
-| 3 | SOC325 - Unauthorized Cloud Region Access (EventID 303) | Low | ✅ True Positive | 2026-10-04 | [log](./triage-log.md#alert-3--soc325-unauthorized-cloud-region-access) |
-| 4 | SOC276 - Account Discovery Attempt (EventID 251) | **Critical** | ✅ True Positive | 2026-10-06 | [log](./triage-log.md#alert-4--soc276-account-discovery-attempt) |
-| 5 | SOC312 - Unauthorized Template Modification (EventID 290) | **Critical** | ✅ True Positive | 2026-10-07 | [log](./triage-log.md#alert-5--soc312-unauthorized-template-modification) |
-| 6 | SOC293 - Exfiltration Over Pastebin (EventID 269) | **Critical** | ✅ True Positive | 2026-10-07 | [log](./triage-log.md#alert-6--soc293-exfiltration-over-pastebin) |
-| 7 | SOC317 - Possible VM Detection Attempt (EventID 295) | **Critical** | ✅ True Positive | 2026-10-09 | [log](./triage-log.md#alert-7--soc317-possible-vm-detection-attempt) |
-| 8 | SOC328 - Akira Ransomware IOC's Detected (EventID 306) | High | ✅ True Positive | 2026-10-09 | [log](./triage-log.md#alert-8--soc328-akira-ransomware-iocs-detected) |
-| 9 | SOC194 - Possible Reverse Shell Detected (EventID 144) | High | ✅ True Positive | 2026-10-10 | [log](./triage-log.md#alert-9--soc194-possible-reverse-shell-detected) |
-| 10 | *(pending)* | | | | |
+<div align="center">
 
-**Progress:** 9 / 10 alerts triaged (90%)
+**Triage 10 live SOC alerts. Document every investigation. Build a real L1 portfolio.**
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=16&pause=2000&color=00FF00&center=true&vCenter=true&width=700&lines=Alert+Triage+%E2%86%92+Evidence+Correlation+%E2%86%92+Verdict+%E2%86%92+Documentation;Build+the+analyst+mindset" alt="Typing SVG" />
+
+</div>
 
 ---
 
-## 📊 Stats
+## 🏆 PROJECT STATUS
 
-| Metric | Value |
-|--------|-------|
-| Total Alerts Triaged | 9 |
-| True Positives | 9 |
-| False Positives | 0 |
-| Benign | 0 |
-| Critical Severity Confirmed | 4 |
-| High Severity Confirmed | 4 |
-| Confirmed Compromises | 5 |
-| Confirmed Data Exfiltration | 1 |
-| Confirmed Ransomware | 1 |
-| Blocked Attacks | 2 |
-| Hosts Contained | 5 |
-| Average Time per Alert | ~2 hours (learning pace) |
-| MITRE Techniques Mapped | 40+ |
-| IOCs Extracted | 40+ |
-| Perfect Playbook Scores | 2 |
+<div align="center">
+
+| 📊 Alerts Triaged | 🔴 Confirmed Compromises | 🛡️ Attacks Blocked | 📸 Screenshots | ⚡ MITRE Techniques |
+|:-----------------:|:------------------------:|:------------------:|:--------------:|:-------------------:|
+| **10 / 10** | **5** | **2** | **80+** | **45+** |
+
+**Progress:** `████████████████████` **100%** ✅
+
+</div>
 
 ---
 
-## 🧭 MITRE ATT&CK Techniques Covered
+## 📋 ALERT PROGRESS
 
-| Tactic | Technique | ID | Alert |
-|--------|-----------|-----|-------|
-| Initial Access | Phishing: Spearphishing Link | T1566.002 | #1, #9 |
-| Initial Access | Phishing: Spearphishing Attachment | T1566.001 | #2, #6, #8 |
-| Initial Access | External Remote Services | T1133 | #3, #4, #5, #7 |
-| Execution | PowerShell | T1059.001 | #2, #6, #7, #8 |
-| Execution | Windows Command Shell | T1059.003 | #2, #8 |
-| Execution | User Execution: Malicious File | T1204.002 | #2, #6, #8, #9 |
-| Execution | Visual Basic | T1059.005 | #5 |
-| Execution | Unix Shell | T1059.004 | #4 |
-| Execution | Windows Management Instrumentation | T1047 | #7, #8 |
-| Persistence | Office Template Macros | T1137.001 | #5, #9 |
-| Persistence | Shortcut Modification | T1547.009 | #6 |
-| Defense Evasion | Valid Accounts | T1078 | #3, #4, #5, #7 |
-| Defense Evasion | Unused Cloud Regions | T1535 | #3 |
-| Defense Evasion | Template Injection | T1221 | #5 |
-| Defense Evasion | Virtualization/Sandbox Evasion | T1497.001 | #7 |
-| Credential Access | Brute Force | T1110 | #4, #5, #7 |
-| Discovery | Account Discovery | T1087 | #4, #7 |
-| Discovery | System Owner/User Discovery | T1033 | #6 |
-| Discovery | System Information Discovery | T1082 | #7 |
-| Discovery | Process Discovery | T1057 | #7 |
-| Command & Control | Application Layer Protocol | T1071 | #2, #9 |
-| Command & Control | Ingress Tool Transfer | T1105 | #2 |
-| Command & Control | Non-Standard Port | T1571 | #2, #9 |
-| Command & Control | Web Protocols | T1071.001 | #5 |
-| Exfiltration | Exfiltration Over Web Service | T1567.002 | #6 |
-| Impact | Data Destruction | T1485 | #8 |
-| Impact | Data Encrypted for Impact | T1486 | #8 |
-| Impact | Inhibit System Recovery | T1490 | #8 |
-| Resource Development | Compromise Accounts | T1586 | #3 |
+<div align="center">
+
+| # | 🎯 Alert | ⚡ Severity | ✅ Verdict | 📅 Date | 📄 Log |
+|:-:|---------|:-----------:|:---------:|:-------:|:------:|
+| 1 | SOC101 - Phishing Mail Detected (87) | 🟡 Medium | ✅ True Positive | Oct 2 | [log](#) |
+| 2 | SOC205 - Malicious Macro Executed (231) | 🟠 High | ✅ True Positive | Oct 3 | [log](#) |
+| 3 | SOC325 - Unauthorized Cloud Access (303) | 🟢 Low | ✅ True Positive | Oct 4 | [log](#) |
+| 4 | SOC276 - Account Discovery Attempt (251) | 🔴 **Critical** | ✅ True Positive | Oct 6 | [log](#) |
+| 5 | SOC312 - Template Modification (290) | 🔴 **Critical** | ✅ True Positive | Oct 7 | [log](#) |
+| 6 | SOC293 - Exfiltration Over Pastebin (269) | 🔴 **Critical** | ✅ True Positive | Oct 7 | [log](#) |
+| 7 | SOC317 - VM Detection Attempt (295) | 🔴 **Critical** | ✅ True Positive | Oct 9 | [log](#) |
+| 8 | SOC328 - Akira Ransomware (306) | 🟠 High | ✅ True Positive | Oct 9 | [log](#) |
+| 9 | SOC194 - Reverse Shell Detected (144) | 🟠 High | ✅ True Positive | Oct 10 | [log](#) |
+| 10 | SOC271 - XZ Backdoor CVE-2024-3094 (247) | 🔴 **Critical** | ✅ True Positive | Oct 10 | [log](#) |
+
+</div>
 
 ---
 
-## 🎯 IOCs Extracted
+## 🎯 ATTACK TYPES MASTERED
 
-| # | IOC | Type | Context | Alert |
-|---|-----|------|---------|-------|
-| 1 | `http://huangaybantiep.xyz` | URL | Phishing URL | #1 |
-| 2 | `146.56.195.192` | IP | Sender SMTP IP | #1 |
-| 3 | `lethuyan852@gmail.com` | E-mail Sender | Random Gmail sender | #1 |
-| 4 | `1a819d18c9a9de4f81829c4cd55a17f767443c22f9b30ca953866827e5d96fb0` | Hash | Malicious macro | #2 |
-| 5 | `92.204.221.16` | IP | C2 IP | #2 |
-| 6 | `heg.com` | Domain | C2 domain | #2 |
-| 7 | `greyhathacker.net` | Domain | Dropper domain | #2 |
-| 8 | `134.209.145.73` | IP | Malicious source | #3 |
-| 9 | `185.107.80.128` | IP | Attacker — 79 abuse reports | #4 |
-| 10 | `analyst`, `test` | Accounts | Compromised Linux users | #4 |
-| 11 | `172.16.17.186` | IP | Victim — VirtuLinux | #4 |
-| 12 | `181.214.131.108` | IP | Attacker — RDP brute force | #5 |
-| 13 | `5D75D0EA8BBBB5B652F7B72CF728C00322BD486D54A5C49...` | Hash | WINWORD.EXE launcher | #5 |
-| 14 | `Normal.dotm` | File | Office template persistence | #5 |
-| 15 | `info@dachfix.com` | E-mail Sender | Phishing sender | #6 |
-| 16 | `103.145.252.87` | IP | Sender SMTP — Vietnam | #6 |
-| 17 | `dachfix.com` | Domain | Phishing domain | #6 |
-| 18 | `https://files-ld.s3.us-east-2.amazonaws.com/quick-zip.fix` | URL | Malware download | #6 |
-| 19 | `2f2d8121d6b351a32a5c55995450200f3cafd3d26b2cf5f646cd3a80f175450e` | SHA256 | Malicious ZIP | #6 |
-| 20 | `system_users.ps1` | File | Malicious script | #6 |
-| 21 | `pastebin.com` | Domain | Exfiltration destination | #6 |
-| 22 | `104.20.3.235` | IP | Pastebin/Cloudflare | #6 |
-| 23 | `37.19.205.203` | IP | Attacker — 156 abuse reports | #7 |
-| 24 | `172.16.17.118` | IP | Victim — Anemon | #7 |
-| 25 | `Get-WmiObject Win32_ComputerSystem` | Command | VM detection | #7 |
-| 26 | `2C7AEAC07CE7F03B74952E0E243BD52F2BFA60FADC92DD71A6A1FEE2D14CDD77` | Hash | Akira ransomware EXE | #8 |
-| 27 | `172.16.17.130` | IP | Victim — Vergil | #8 |
-| 28 | `akira_readme.txt` | File | Akira ransom note | #8 |
-| 29 | `payment-confirmation-invoice-12345.zip` | File | Phishing attachment | #8 |
-| 30 | `mate@instagram.com.tr` | E-mail Sender | Phishing sender | #9 |
-| 31 | `instagram.com.tr` | Domain | Phishing domain | #9 |
-| 32 | `lnstagrams.com.tr` | Domain | Typosquatting domain | #9 |
-| 33 | `31.210.39.247` | IP | Phishing host — Turkey | #9 |
-| 34 | `185.106.94.194` | IP | Reverse shell destination | #9 |
-| 35 | `172.16.17.20` | IP | Victim — Can | #9 |
-| 36 | `172.16.20.3` | IP | Suspicious internal sender | #9 |
-| 37 | `2022_Annual_Report.docx` | File | Malicious document | #9 |
-| 38 | `test.dotm` | File | Malicious template | #9 |
+<div align="center">
+
+| 🎣 Phishing | 🦠 Malware | ☁️ Cloud Attack | 🚨 Account Recon |
+|:-----------:|:----------:|:---------------:|:----------------:|
+| ✅ 3 alerts | ✅ 3 alerts | ✅ 1 alert | ✅ 1 alert |
+
+| 📄 Persistence | 📤 Exfiltration | 🕵️ VM Evasion | 🐚 Reverse Shell |
+|:--------------:|:---------------:|:-------------:|:----------------:|
+| ✅ 2 alerts | ✅ 1 alert | ✅ 1 alert | ✅ 1 alert |
+
+| 🧬 Supply Chain |
+|:---------------:|
+| ✅ 1 alert |
+
+</div>
 
 ---
 
-## 💡 Key Lessons Learned
+## ⚡ HIGHLIGHT INVESTIGATIONS
 
-1. **VirusTotal "0 detections" ≠ safe** — freshness matters more than detection count (Alert #1)
-2. **Pyramid of evidence** — combined correlation beats single indicators (Alert #1)
-3. **⚠️ Log search is multi-angle** — process names matter more than IOCs (Alert #2)
-4. **"Device Action: Blocked" lowers severity** (Alert #3)
-5. **⚠️ Pro view > Basic view** — Pro found the confirmed compromise (Alert #4)
-6. **AbuseIPDB complements VirusTotal** — VT 0/91, AbuseIPDB 79 reports (Alert #4)
-7. **"Accepted password" in SSH logs = compromise confirmed** (Alert #4)
-8. **Scope = THIS alert's indicators only** (Alert #4)
-9. **⭐ Timing correlation proves causation** (Alert #5, #7, #9)
-10. **`Normal.dotm` = full persistence** (Alert #5)
-11. **RDP brute force (port 3389) is common in enterprise** (Alert #5, #7)
-12. **100% playbook score is achievable** (Alert #5, #7)
-13. **⚠️ Phishing → download → execution → exfil is a full kill chain** (Alert #6)
-14. **LNKScript family uses shortcut files for execution** (Alert #6)
-15. **Pastebin is a common exfiltration destination** (Alert #6)
-16. **Chrome downloads can still be malicious** (Alert #6)
-17. **VM detection via WMI = sandbox evasion** (Alert #7)
-18. **Ransom notes go to ID Ransomware** — even without encrypted files (Alert #8)
-19. **Ransomware runs in seconds** — 62-second attack window (Alert #8)
-20. **"Detected" ≠ "Blocked"** — verify with encryption events (Alert #8)
-21. **Typosquatting: `lnstagrams` (lowercase L) vs `instagram`** (Alert #9)
-22. **Office template persistence via `test.dotm`** (Alert #9)
-23. **Reverse shell used RDP port (3389) to blend in** (Alert #9)
-24. **"Backdoor exploited" ≠ "connection succeeded"** — mechanism triggered counts (Alert #9)
+### 🔥 THE FIRST COMPROMISE — Alert #4
+
+> **Attacker IP:** `185.107.80.128` (79 AbuseIPDB reports, NForce VPN)
+> **Target:** VirtuLinux (172.16.17.186)
+> **Finding:** 3 successful SSH logins → account discovery via `getent passwd`
+
+**Breakthrough:** Basic view showed 0 events. **Pro view** revealed the smoking gun — 3 "Accepted password" log entries.
 
 ---
 
-## 📸 Screenshots
+### 💰 RANSOMWARE CONTAINED — Alert #8
 
-All investigation evidence is stored in [`./screenshots/`](./screenshots/) — named by alert ID and stage:
+> **Threat:** Akira Ransomware (60/71 VT malicious)
+> **Target:** Vergil (172.16.17.130)
+> **Timeline:** 62 seconds from execution to ransom note
 
-| Alert | Screenshots |
-|-------|-------------|
-| #1 | 11 screenshots — phishing triage workflow |
-| #2 | 13 screenshots — malware triage workflow |
-| #3 | 5 screenshots — cloud access attempt workflow |
-| #4 | 8 screenshots — confirmed compromise investigation |
-| #5 | 9 screenshots — RDP brute force + template persistence |
-| #6 | 12 screenshots — full exfiltration kill-chain investigation |
-| #7 | 5 screenshots — VM detection + RDP compromise |
-| #8 | 6 screenshots — Akira ransomware investigation |
-| #9 | 6 screenshots — reverse shell (blocked) investigation |
-
-**Total:** 75 screenshots across 9 alerts
+**Breakthrough:** `.akira` extension search → 0 events. **Encryption prevented.** Attack contained before impact.
 
 ---
 
-## 📁 Related Files
+### 🧬 SUPPLY CHAIN ATTACK — Alert #10
 
-- [`triage-log.md`](./triage-log.md) — Detailed writeups for every alert
-- [`screenshots/`](./screenshots/) — Investigation evidence
-- [Root README](../../README.md) — Full portfolio overview
+> **Threat:** XZ Backdoor (CVE-2024-3094) — 37/63 VT malicious
+> **Target:** SSHDevServer01 (172.16.17.121)
+> **Finding:** Backdoored `liblzma.so.5.6.1` in `/usr/local/lib/`
 
----
-
-## 🎓 Skills Demonstrated in This Project
-
-- Alert triage workflow (L1 SOC)
-- Email phishing investigation
-- Malware analysis (macro dropper, Logan family)
-- Cloud region access investigation
-- Linux SSH brute force investigation
-- Windows RDP brute force investigation
-- Confirmed compromise identification
-- Office template persistence investigation
-- Data exfiltration investigation (Pastebin)
-- Full kill-chain reconstruction
-- VM/sandbox evasion detection
-- Ransomware investigation (Akira)
-- **Reverse shell investigation**
-- **Typosquatting domain detection**
-- Multi-tool threat intelligence correlation
-- Log forensics via Pro view / raw log search
-- Incident response playbook execution (100% scores achieved)
-- Host containment action (5 hosts contained)
-- File eradication
-- IOC extraction and classification (38 IOCs)
-- MITRE ATT&CK mapping (29 techniques)
-- Evidence documentation with screenshots
-- Analytical writing (analyst notes, verdicts)
+**Breakthrough:** Confirmed live vulnerable version (xz 5.6.1) + located malicious file shadowing the legitimate 5.2.4 library.
 
 ---
 
-*Last updated: October 10, 2026*
+## 🧭 MITRE ATT&CK COVERAGE
+
+<div align="center">
+
+| **Initial Access** | **Execution** | **Persistence** |
+|:------------------:|:-------------:|:---------------:|
+| T1566.001, T1566.002, T1133, T1195 | T1059.001, T1059.003, T1059.004, T1059.005, T1047, T1106, T1204.002 | T1137.001, T1547.009 |
+
+| **Defense Evasion** | **Credential Access** | **Discovery** |
+|:-------------------:|:---------------------:|:-------------:|
+| T1078, T1535, T1221, T1497.001 | T1110 | T1087, T1033, T1082, T1057 |
+
+| **Command & Control** | **Exfiltration** | **Impact** |
+|:---------------------:|:----------------:|:----------:|
+| T1071, T1071.001, T1105, T1571 | T1567.002 | T1485, T1486, T1490 |
+
+</div>
+
+---
+
+## 🎯 IOCs EXTRACTED
+
+<div align="center">
+
+| 🎣 Phishing | 🦠 Malware | 🚨 Attacker IPs |
+|:-----------:|:----------:|:---------------:|
+| `huangaybantiep.xyz` | `downloader.logan/w97m` | `185.107.80.128` |
+| `lethuyan852@gmail.com` | `greyhathacker.net` | `181.214.131.108` |
+| `dachfix.com` | `heg.com` | `134.209.145.73` |
+| `mate@instagram.com.tr` | `system_users.ps1` | `37.19.205.203` |
+| `lnstagrams.com.tr` | `test.dotm` | `185.106.94.194` |
+| `instagram.com.tr` | `liblzma.so.5.6.1` | `172.16.20.3` |
+
+**Total IOCs:** **45+** documented across all 10 alerts
+
+</div>
+
+---
+
+## 💡 KEY LESSONS LEARNED
+
+<div align="center">
+
+| # | 💡 Lesson | 🎯 Alert |
+|:-:|-----------|:--------:|
+| 1 | VirusTotal "0 detections" ≠ safe | #1 |
+| 2 | **Search process names BEFORE IOCs** | #2 |
+| 3 | "Device Action: Blocked" = contained | #3 |
+| 4 | **Pro view > Basic view** | #4 |
+| 5 | AbuseIPDB complements VirusTotal | #4 |
+| 6 | "Accepted password" in logs = smoking gun | #4 |
+| 7 | **Timing correlation proves causation** | #5, #7 |
+| 8 | `Normal.dotm` = full persistence | #5 |
+| 9 | RDP brute force is common in enterprise | #5, #7 |
+| 10 | Phishing → exfil = full kill chain | #6 |
+| 11 | Pastebin = common exfil destination | #6 |
+| 12 | VM detection = sandbox evasion | #7 |
+| 13 | Ransomware runs in seconds | #8 |
+| 14 | "Detected" ≠ "Blocked" | #8 |
+| 15 | Typosquatting: `lnstagrams` vs `instagram` | #9 |
+| 16 | "Backdoor exploited" ≠ "connection succeeded" | #9 |
+| 17 | **"Installed" ≠ "Executed"** | #10 |
+| 18 | `/usr/local/lib/` takes precedence over `/usr/lib/` | #10 |
+
+</div>
+
+---
+
+## 📸 EVIDENCE
+
+<div align="center">
+
+**Every alert documented with screenshots, logs, IOCs, and verdicts.**
+
+| Alert | 📸 Screenshots | 🎯 Status |
+|:-----:|:--------------:|:---------:|
+| #1 | 11 screenshots | ✅ Complete |
+| #2 | 13 screenshots | ✅ Complete |
+| #3 | 5 screenshots | ✅ Complete |
+| #4 | 8 screenshots | ✅ Complete |
+| #5 | 9 screenshots | ✅ Complete |
+| #6 | 12 screenshots | ✅ Complete |
+| #7 | 5 screenshots | ✅ Complete |
+| #8 | 6 screenshots | ✅ Complete |
+| #9 | 6 screenshots | ✅ Complete |
+| #10 | 3 screenshots | ✅ Complete |
+
+**Total: 80+ screenshots**
+
+</div>
+
+---
+
+## 🛠️ TOOLS MASTERED
+
+<div align="center">
+
+![VirusTotal](https://img.shields.io/badge/VirusTotal-394EFF?style=for-the-badge&logo=virustotal&logoColor=white)
+![AbuseIPDB](https://img.shields.io/badge/AbuseIPDB-CC0000?style=for-the-badge&logo=abuseipdb&logoColor=white)
+![LetsDefend](https://img.shields.io/badge/LetsDefend-00B4D8?style=for-the-badge&logo=letsdefend&logoColor=white)
+![MITRE ATT&CK](https://img.shields.io/badge/MITRE_ATT%26CK-FF0000?style=for-the-badge&logo=mitre&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+
+**+ Pro View Log Analysis, Email Security, Endpoint Security, Proxy Logs, Firewall Logs**
+
+</div>
+
+---
+
+## 🎓 SKILLS DEMONSTRATED
+
+<div align="center">
+
+✅ Alert Triage Workflow
+✅ Threat Intelligence Correlation
+✅ Log Forensics (Basic + Pro view)
+✅ MITRE ATT&CK Mapping
+✅ Incident Response Playbook Execution
+✅ IOC Extraction & Classification
+✅ Host Containment
+✅ Supply Chain Attack Analysis
+✅ Ransomware Investigation
+✅ Reverse Shell Detection
+✅ Evidence Documentation
+
+</div>
+
+---
+
+## 🏆 PROJECT COMPLETION
+
+<div align="center">
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&pause=1000&color=00FF00&center=true&vCenter=true&width=700&lines=%E2%9C%85+PROJECT+01+COMPLETE;%F0%9F%8F%86+10%2F10+Alerts+Triaged;%F0%9F%9A%80+Moving+to+Project+02" alt="Typing SVG" />
+
+### 🎯 Next Up: **Project 02 — Phishing Email Analysis**
+
+**Platform:** CyberDefenders
+
+</div>
+
+---
+
+<div align="center">
+
+### ⚡ *"Detection is not a tool — it's a mindset."* ⚡
+
+**⭐ Star this repo if you're following the same journey ⭐**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/haris456/)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/oraxzai)
+
+</div>
+
+---
+
+*Project 01 Complete — October 10, 2026*
