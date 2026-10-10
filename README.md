@@ -23,7 +23,7 @@
 
 | 🎯 Current Project | 📊 Alerts Triaged | ✅ Projects Done | 📅 Started |
 |:---:|:---:|:---:|:---:|
-| **01 — Live SOC Monitoring** | **8 / 10** | **0 / 14** | **Oct 1, 2026** |
+| **01 — Live SOC Monitoring** | **9 / 10** | **0 / 14** | **Oct 1, 2026** |
 
 </div>
 
