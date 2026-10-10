@@ -2,8 +2,8 @@
 
 Detailed writeups of each alert triaged on LetsDefend.
 
-**Progress:** 8 / 10 alerts triaged  
-**Last Updated:** October 9, 2026
+**Progress:** 9 / 10 alerts triaged  
+**Last Updated:** October 10, 2026
 
 ---
 
@@ -47,7 +47,6 @@ Detailed writeups of each alert triaged on LetsDefend.
 
 ### 🔍 Investigation
 - VT hash: **31/65 malicious** — downloader.logan/w97m
-- Code Insights: Macro triggers on form focus, runs hidden shell command
 - Endpoint: Containment OFF
 - Log Mgmt: 6 searches, all 0 events initially
 
@@ -76,10 +75,9 @@ Detailed writeups of each alert triaged on LetsDefend.
 - Device Action: **Blocked**
 
 ### 🔍 Investigation
-- VT IP: 5/91 malicious (BitDefender, CRDF, Criminal IP, G-Data, SOCRadar)
-- ASN: DigitalOcean, India
+- VT IP: 5/91 malicious (DigitalOcean, India)
 - CrowdSec: "SSH Bruteforce" history
-- Log Mgmt: 0 events for source IP/user
+- Log Mgmt: 0 events
 
 ### 🎯 Verdict
 **TRUE POSITIVE — Unauthorized Access (Blocked)** | Severity: Low
@@ -95,24 +93,23 @@ Detailed writeups of each alert triaged on LetsDefend.
 **EventID:** 251 | **Severity:** CRITICAL | **Date:** 2026-10-06
 
 ### 📋 Overview
-- Host: VirtuLinux (Ubuntu 20.04, 172.16.17.186)
+- Host: VirtuLinux (172.16.17.186)
 - Command: `getent passwd`
 - L1 Note: Brute force from 185.107.80.128, success unknown
 
 ### 🔍 Investigation
-- AbuseIPDB: 185.107.80.128 — **79 reports**, 25% confidence
-- VT: 0/91 (NForce VPN, Netherlands)
+- AbuseIPDB: 185.107.80.128 — **79 reports**
 - Log Mgmt (Pro view): `accepted AND 185.107.80.128` → **3 successful logins**
-  - 08:41:56 → analyst, test accounts
+  - 08:41:56 → test
+  - 08:41:59 → analyst
   - 08:42:28 → analyst
-- Broader `accepted` search: 37 events (env-wide pattern)
 
 ### 🎯 Verdict
 **TRUE POSITIVE — CONFIRMED COMPROMISE** | Severity: Critical
 **Playbook Score:** 25 (92%)
 
 ### ⚠️ Correction
-**Wrong:** Scope = Yes (multiple devices) | **Correct:** No — only THIS alert's IP
+**Wrong:** Scope = Yes | **Correct:** No — only THIS alert's IP
 
 ### 🛡️ Actions
 - Contained VirtuLinux
@@ -126,29 +123,24 @@ Detailed writeups of each alert triaged on LetsDefend.
 
 ### 📋 Overview
 - Host: Jonah (172.16.17.110)
-- Process: WINWORD.EXE
 - Command: `WINWORD.EXE /n /f "...\Normal.dotm"`
 
 ### 🔍 Investigation
-- AbuseIPDB: 181.214.131.108 — 33 reports, 11% confidence
-- Log Mgmt: 10 events
-  - 9 failed RDP logins → **1 SUCCESS at 15:27:20**
-  - WINWORD modified `Normal.dotm` at 15:31:02 (**4 min later**)
-- Normal.dotm = global Word template = **persistence**
+- AbuseIPDB: 181.214.131.108 — 33 reports
+- Log Mgmt: 9 failed RDP → **1 SUCCESS at 15:27:20**
+- WINWORD modified `Normal.dotm` at 15:31:02 (**4 min later**)
 
 ### 🎯 Verdict
 **TRUE POSITIVE — CONFIRMED COMPROMISE + PERSISTENCE** | Severity: Critical
 **Playbook Score:** 30 (**100%**) ⭐
 
 ### 🛡️ Actions
-- Confirmed compromise via timing correlation
-- Identified Normal.dotm persistence
 - Contained host Jonah
 
 ### 💡 Lessons
 1. **Timing correlation proves causation**
 2. **`Normal.dotm` = full persistence**
-3. **RDP brute force is common** — always check EventID 4624
+3. **RDP brute force is common**
 
 ---
 
@@ -160,21 +152,19 @@ Detailed writeups of each alert triaged on LetsDefend.
 - Host: Gabriela (172.16.17.63)
 - File: `system_users.ps1`
 - Command: `powershell.exe -ExecutionPolicy Bypass -File .\system_users.ps1`
-- Device Action: **Allowed** ⚠️
 
 ### 🔍 Investigation
 **Phishing origin:**
-- From: `info@dachfix.com` | IP: 103.145.252.87 (Vietnam — 8/92 malicious)
-- Subject: "Download and Apply the Critical Fix"
+- From: `info@dachfix.com` (Vietnam — 8/92 malicious)
 - Attachment: Quick-Fix.zip
 
-**Download from cloud:**
+**Malware download:**
 - Chrome → `https://files-ld.s3.us-east-2.amazonaws.com/quick-zip.fix`
-- Hash: `2f2d8121d6b351a32a5c55995450200f3cafd3d26b2cf5f646cd3a80f175450e` — `lnkscript` family
+- Hash: `2f2d8121...` — lnkscript family
 
-**PowerShell + Exfil:**
+**Exfiltration:**
 - DNS query: `pastebin.com` → 104.20.3.235
-- HTTPS upload to port 443 — **ALLOWED → DATA LEAKED**
+- HTTPS upload — **ALLOWED → DATA LEAKED**
 
 ### 🎯 Verdict
 **TRUE POSITIVE — CONFIRMED DATA EXFILTRATION** | Severity: Critical
@@ -183,10 +173,9 @@ Detailed writeups of each alert triaged on LetsDefend.
 - T1566.001, T1204.002, T1059.001, T1547.009, T1033, T1567.002
 
 ### 💡 Lessons
-1. Full kill chain: phishing → download → execution → exfil
-2. "Urgent fix" emails = classic phishing lures
+1. Full kill chain confirmed
+2. "Urgent fix" emails = phishing
 3. Pastebin = common exfil destination
-4. Chrome downloads can still be malicious
 
 ---
 
@@ -197,28 +186,24 @@ Detailed writeups of each alert triaged on LetsDefend.
 ### 📋 Overview
 - Host: Anemon (172.16.17.118)
 - Command: `Get-WmiObject -Class Win32_ComputerSystem`
-- L1 Note: Brute force from 37.19.205.203, success unknown
+- L1 Note: Brute force from 37.19.205.203
 
 ### 🔍 Investigation
-- AbuseIPDB: 37.19.205.203 — **156 reports**, 35% confidence, Datacamp VPN, Japan
-- Log Mgmt: 14 events
-  - 13 failed RDP logins → **1 SUCCESS at 14:30:31**
-  - `Get-WmiObject` ran at 14:33:33 (**3 min later**)
-- `Get-WmiObject Win32_ComputerSystem` = **VM/sandbox detection**
+- AbuseIPDB: 37.19.205.203 — **156 reports**, Datacamp VPN, Japan
+- Log Mgmt: 13 failed RDP → **1 SUCCESS at 14:30:31**
+- `Get-WmiObject` ran at 14:33:33 (**3 min later**)
+- VM detection = T1497.001 (sandbox evasion)
 
 ### 🎯 Verdict
 **TRUE POSITIVE — CONFIRMED COMPROMISE + VM DETECTION** | Severity: Critical
 **Playbook Score:** 30 (**100%**) ⭐
 
 ### 🛡️ Actions
-- Confirmed successful RDP login
-- Identified VM detection post-compromise
 - Contained host Anemon
 
 ### 💡 Lessons
-1. **T1497.001 — Virtualization/Sandbox Evasion**
-2. Timing correlation (3 min gap) confirms attack chain
-3. Same pattern as Alerts #4 and #5
+1. T1497.001 — Virtualization/Sandbox Evasion
+2. Timing correlation confirms attack chain
 
 ---
 
@@ -231,69 +216,104 @@ Detailed writeups of each alert triaged on LetsDefend.
 - File: `payment-confirmation-invoice-12345\Payment Confirmation Invoice #12345.exe`
 - Hash: `2C7AEAC07CE7F03B74952E0E243BD52F2BFA60FADC92DD71A6A1FEE2D14CDD77`
 - Difficulty: **Hard**
-- Type: APT Group
 
 ### 🔍 Investigation
-
-**Threat Intelligence:**
-- VT hash: **60/71 malicious** — `ransomware.akira/misc`
-- Family: akira, misc, encoder
+- VT hash: **60/71 malicious** — ransomware.akira/misc
 - Anti-analysis tags: `checks-user-input`, `long-sleeps`, `detect-debug-environment`
-
-**Attack Timeline:**
-- 07:52:10 → EventID 4688 — Malicious EXE executed
-- 07:53:12-13 → Ransom note `akira_readme.txt` dropped at `C:\Users\Public\Downloads\`
-- Total window: **~62 seconds**
-
-**Containment Evidence:**
-- `vssadmin` search: **0 events** (no shadow deletion)
-- `.akira` extension search: **0 events** (no encryption logged)
+- Process created: 07:52:10 (EventID 4688)
+- Ransom note `akira_readme.txt` dropped: 07:53:12-13
+- Attack window: ~62 seconds
+- `vssadmin` search: 0 events (no shadow deletion)
+- `.akira` extension search: 0 events (no encryption logged)
 - 22 outbound HTTPS connections (possible C2/exfil)
-
-**Initial Access:**
-- Phishing email with `payment-confirmation-invoice-12345.zip`
-- User Vergil executed the extracted EXE
 
 ### 🎯 Verdict
 **TRUE POSITIVE — Akira Ransomware (Execution Confirmed, Encryption Prevented)**  
-**Severity:** High  
-**Confidence:** High
+**Severity:** High
 
-**Playbook Score:** ~75% (2 wrong answers)
-
-### ⚠️ Playbook Corrections
+### ⚠️ Playbook Corrections (2 wrong)
 | Question | My Answer | Correct |
 |----------|-----------|---------|
-| Automated Categorization Services | No | **Yes** (upload ransom note to ID Ransomware) |
-| Determine type - 3 | No | **Yes** (encrypted file extensions may exist) |
+| Automated Categorization Services | No | **Yes** |
+| Determine type - 3 | No | **Yes** |
 
-### 🛡️ Actions Taken
-- Confirmed Akira via VirusTotal
-- Documented full attack timeline (62 sec)
-- Verified encryption was prevented
-- Escalated to IR (Create Ticket)
+### 💡 Lessons
+1. Ransom notes go to ID Ransomware
+2. File extension searches need broader terms
+3. Ransomware runs in seconds
+4. "Detected" ≠ "Blocked"
+
+---
+
+## Alert #9 — SOC194: Possible Reverse Shell Detected
+
+**EventID:** 144 | **Severity:** HIGH | **Date:** 2026-10-10
+
+### 📋 Overview
+- Host: Can (172.16.17.20)
+- File: `C:\Users\LetsDefend\Downloads\2022_Annual_Report.docx`
+- EDR Action: Detected
+- Difficulty: **Hard**
+
+### 🔍 Investigation
+
+**Initial Access — Phishing Email:**
+- From: `mate@instagram.com.tr`
+- To: `can@letsdefend.io`
+- Subject: "Your Instagram Account Has Been Compromised"
+- Sender IP: 172.16.20.3 (internal — investigate)
+- Time: 2023-05-03 17:55:38
+
+**Phishing Site Visit:**
+- Domain: `lnstagrams.com.tr` (typosquatting — lowercase L)
+- Host IP: 31.210.39.247 (VT: 1/92 Phishing, Turkey)
+- Time: 2023-05-04 09:45:17
+
+**Execution + Persistence:**
+- Command: `WINWORD.EXE /n /f "...\Custom Office Templates\test.dotm"`
+- Time: 2023-05-04 07:55:24
+- Technique: **Office Template Macros (T1137.001)**
+
+**Reverse Shell Attempt:**
+- Destination: 185.106.94.194:3389 (RDP port)
+- Attempts: 2 outbound connections
+- **Result: BOTH FAILED** (firewall blocked)
+
+**Containment:**
+- Files deleted: 2022_Annual_Report.docx, test.dotm
+- Host isolated
+
+### 🎯 Verdict
+**TRUE POSITIVE — Reverse Shell Attempt (Blocked)**  
+**Severity:** High  
+**Playbook Score:** 10 (75%)
+
+### ⚠️ Playbook Correction
+**Wrong:** "Was the backdoor exploited?" — said No | **Correct:** Yes (mechanism triggered)
 
 ### 📊 IOCs
-- Hash: `2C7AEAC07CE7F03B74952E0E243BD52F2BFA60FADC92DD71A6A1FEE2D14CDD77`
-- Host: Vergil (172.16.17.130)
-- Ransom note: `akira_readme.txt`
-- Phishing attachment: `payment-confirmation-invoice-12345.zip`
+- `mate@instagram.com.tr` (Phishing Sender)
+- `instagram.com.tr` (Phishing Domain)
+- `lnstagrams.com.tr` (Typosquatting Domain)
+- `31.210.39.247` (Phishing Host IP)
+- `185.106.94.194` (Reverse Shell Destination)
+- `172.16.20.3` (Internal Sender — investigate)
+- `2022_Annual_Report.docx` (Malicious Document)
+- `test.dotm` (Malicious Template)
 
 ### 🧭 MITRE
-- T1566.001 — Phishing: Spearphishing Attachment
-- T1047 — Windows Management Instrumentation
-- T1059.001 — PowerShell
-- T1059.003 — Windows Command Shell
-- T1485 — Data Destruction
-- T1486 — Data Encrypted for Impact
-- T1490 — Inhibit System Recovery
+- T1566.002 — Phishing: Spearphishing Link
+- T1204.002 — User Execution: Malicious File
+- T1137.001 — Office Template Macros
+- T1071 — Application Layer Protocol
+- T1571 — Non-Standard Port
 
-### 💡 Lessons Learned
-1. **Ransom notes go to ID Ransomware** — even without encrypted files
-2. **File extension searches need broader terms** — `.akira` may not match log format
-3. **Ransomware runs in seconds** — 62-second attack window
-4. **"Detected" ≠ "Blocked"** — verify with encryption events
-5. **Playbook scores teach reasoning** — read the explanations
+### 💡 Lessons
+1. Typosquatting: `lnstagrams` (lowercase L) vs `instagram`
+2. Office template persistence via `test.dotm`
+3. Reverse shell used RDP port (3389) to blend in
+4. Check internal sender IPs — could be compromised relay
+5. **"Backdoor exploited" ≠ "connection succeeded"** — mechanism triggered counts
 
 ---
 
@@ -309,10 +329,11 @@ Detailed writeups of each alert triaged on LetsDefend.
 | #6 | 269 | Exfiltration | ✅ True Positive | **Critical** |
 | #7 | 295 | VM Detection | ✅ True Positive | **Critical** |
 | #8 | 306 | Ransomware | ✅ True Positive | High |
+| #9 | 144 | Reverse Shell | ✅ True Positive | High |
 
-**Total:** 8 alerts | **8 True Positives** | **0 False Positives**  
-**Progress:** 8 / 10 (80%)
+**Total:** 9 alerts | **9 True Positives** | **0 False Positives**  
+**Progress:** 9 / 10 (90%)
 
 ---
 
-*Last updated: October 9, 2026*
+*Last updated: October 10, 2026*
