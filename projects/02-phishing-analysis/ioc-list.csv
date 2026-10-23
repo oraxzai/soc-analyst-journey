@@ -1,0 +1,10 @@
+Challenge,IOC Type,Value,Context
+PhishStrike,IP,18.208.22.104,Spoofed sender IP
+PhishStrike,IP,107.175.247.199,Malware hosting server
+PhishStrike,URL,http://107.175.247.199/loader/install.exe,Initial downloader
+PhishStrike,URL,http://ripley.studio/loader/uploads/Qanjttrbv.jpeg,C2/Communication URL
+PhishStrike,Domain,gh9st.mywire.org,BitRAT C2 Domain
+PhishStrike,SHA256,bf7628695c2df7a3020034a065397592a1f8850e59f9a448b555bc1c8c639539,BitRAT Payload
+PhishStrike,SHA256,453fb1c4b3b48361fa8a67dcedf1eaec39449cb5a146a7770c63d1dc0d7562f0,CoinMiner Payload
+PhishStrike,File,Jzwvix.exe,BitRAT persistence executable
+PhishStrike,Telegram ID,bot5610920260,AsyncRAT exfiltration channel
