@@ -1,10 +1,36 @@
-Challenge,IOC Type,Value,Context
-PhishStrike,IP,18.208.22.104,Spoofed sender IP
-PhishStrike,IP,107.175.247.199,Malware hosting server
-PhishStrike,URL,http://107.175.247.199/loader/install.exe,Initial downloader
-PhishStrike,URL,http://ripley.studio/loader/uploads/Qanjttrbv.jpeg,C2/Communication URL
-PhishStrike,Domain,gh9st.mywire.org,BitRAT C2 Domain
-PhishStrike,SHA256,bf7628695c2df7a3020034a065397592a1f8850e59f9a448b555bc1c8c639539,BitRAT Payload
-PhishStrike,SHA256,453fb1c4b3b48361fa8a67dcedf1eaec39449cb5a146a7770c63d1dc0d7562f0,CoinMiner Payload
-PhishStrike,File,Jzwvix.exe,BitRAT persistence executable
-PhishStrike,Telegram ID,bot5610920260,AsyncRAT exfiltration channel
+### 🧬 Threat Intelligence Dashboard
+
+<div align="center">
+
+| 🚨 Threat Indicator | 🏷️ Type | 🎯 Role | 🔥 Status |
+|:-------------------|:--------|:--------|:---------:|
+| `18.208.22.104` | IP | Spoofed Sender | 🔴 Malicious |
+| `107.175.247.199` | IP | Payload Hosting | 🔴 Malicious |
+| `http://107.175.247.199/loader/install.exe` | URL | Initial Downloader | 🔴 Malicious |
+| `http://ripley.studio/loader/uploads/Qanjttrbv.jpeg` | URL | C2 Communication | 🔴 Malicious |
+| `gh9st.mywire.org` | Domain | BitRAT C2 | 🔴 Malicious |
+| `bf7628695c2df7a3020034a065397592a1f8850e59f9a448b555bc1c8c639539` | SHA256 | BitRAT Payload | 🔴 Malicious |
+| `453fb1c4b3b48361fa8a67dcedf1eaec39449cb5a146a7770c63d1dc0d7562f0` | SHA256 | CoinMiner Payload | 🔴 Malicious |
+| `Jzwvix.exe` | File | Registry Persistence | 🔴 Malicious |
+| `bot5610920260` | Telegram ID | AsyncRAT Exfiltration | 🔴 Malicious |
+
+</div>
+
+### 🗺️ Attack Flow Visualization
+
+```mermaid
+graph LR
+    A[📧 Phishing Email] -->|User Clicks Link| B(🌐 Malicious URL)
+    B -->|Downloads| C[🦠 Malware Payload]
+    C -->|Executes| D[🖥️ Victim Host]
+    D -->|Persistence| E[🔑 Registry Run Key]
+    D -->|C2 Communication| F[📡 gh9st.mywire.org]
+    D -->|Data Exfiltration| G[📱 Telegram Bot]
+    
+    style A fill:#f9d0c4,stroke:#333,stroke-width:2px
+    style B fill:#ff9999,stroke:#333,stroke-width:2px
+    style C fill:#ff9999,stroke:#333,stroke-width:2px
+    style D fill:#f9d0c4,stroke:#333,stroke-width:2px
+    style E fill:#ffcc00,stroke:#333,stroke-width:2px
+    style F fill:#ff9999,stroke:#333,stroke-width:2px
+    style G fill:#ffcc00,stroke:#333,stroke-width:2px
