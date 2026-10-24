@@ -4,7 +4,7 @@
 
 ### Muhammad Haris Orakzai
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=22&pause=1000&color=36BCF7&center=true&vCenter=true&width=700&lines=Hands-On+SOC+Analyst+Training;Blue+Team+%7C+Detection+%26+Response;14+Projects+%7C+Blue+Team+Roadmap+2026;%F0%9F%9A%A8+Project+01+COMPLETE" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=22&pause=1000&color=36BCF7&center=true&vCenter=true&width=700&lines=Hands-On+SOC+Analyst+Training;Blue+Team+%7C+Detection+%26+Response;14+Projects+%7C+Blue+Team+Roadmap+2026;%F0%9F%9A%A8+Project+02+COMPLETE" alt="Typing SVG" />
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-haris456-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/haris456/)
 [![GitHub](https://img.shields.io/badge/GitHub-oraxzai-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/oraxzai)
@@ -21,11 +21,11 @@
 
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=18&pause=1000&color=00FF00&center=true&vCenter=true&width=700&lines=%F0%9F%8E%89+Project+01+COMPLETE;%F0%9F%93%8A+10%2F10+Alerts+Triaged;%F0%9F%94%B4+5+Confirmed+Compromises;%F0%9F%9B%A1%EF%B8%8F+2+Ransomware+Attacks+Stopped" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=18&pause=1000&color=00FF00&center=true&vCenter=true&width=700&lines=%F0%9F%8E%89+Project+02+COMPLETE;%F0%9F%93%8A+3%2F3+Challenges+Solved;%F0%9F%94%B4+27+Questions+Answered;%F0%9F%9B%A1%EF%B8%8F+Phishing+%7C+Malware+%7C+Threat+Intel" alt="Typing SVG" />
 
-| 🎯 Current Project | 📊 Alerts Triaged | ✅ Projects Done | 📅 Started |
-|:------------------:|:-----------------:|:---------------:|:----------:|
-| **02 — Phishing Analysis** | **10 / 10** ✅ | **1 / 14** | **Oct 1, 2026** |
+| 🎯 Current Project | 📊 Challenges Solved | ✅ Projects Done | 📅 Started |
+|:------------------:|:--------------------:|:---------------:|:----------:|
+| **03 — Incident Response** | **3 / 3** ✅ | **2 / 14** | **Oct 1, 2026** |
 
 </div>
 
@@ -38,8 +38,8 @@
 | # | 🎯 Project | 🛠️ Platform | 📊 Status |
 |:-:|-----------|:-----------:|:---------:|
 | 01 | [Live SOC Alert Monitoring](./projects/01-live-soc-monitoring/) | LetsDefend | ✅ **COMPLETE** |
-| 02 | Phishing Email Analysis | CyberDefenders | 🔄 In Progress |
-| 03 | Incident Response Simulation | TryHackMe | ⏳ Planned |
+| 02 | [Phishing Email Analysis](./projects/02-phishing-analysis/) | CyberDefenders | ✅ **COMPLETE** |
+| 03 | Incident Response Simulation | TryHackMe | 🔄 In Progress |
 | 04 | Ransomware Investigation | LetsDefend | ⏳ Planned |
 | 05 | Threat Hunting (Splunk/ELK) | TryHackMe | ⏳ Planned |
 | 06 | Detection Rule Writing (Sigma/YARA) | Home Lab | ⏳ Planned |
@@ -52,7 +52,7 @@
 | 13 | Malware Reverse Engineering | Ghidra / REMnux | ⏳ Planned |
 | 14 | Capstone: Full SOC Simulation | Multi-Tool | ⏳ Planned |
 
-**Progress:** `██░░░░░░░░░░░░` **1 / 14 Projects (7%)**
+**Progress:** `███░░░░░░░░░░░` **2 / 14 Projects (14%)**
 
 *Full roadmap → [ROADMAP.md](./ROADMAP.md)*
 
@@ -60,24 +60,24 @@
 
 ---
 
-## 🏆 PROJECT 01 HIGHLIGHTS
+## 🏆 RECENT MILESTONES
 
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=16&pause=1000&color=FF4444&center=true&vCenter=true&width=700&lines=%F0%9F%94%B4+5+Confirmed+Compromises;%F0%9F%92%B0+2+Ransomware+Attacks+Contained;%F0%9F%A7%AC+XZ+Supply+Chain+Backdoor+Exposed;%E2%9A%A1+45%2B+MITRE+Techniques+Mapped" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=16&pause=1000&color=FF4444&center=true&vCenter=true&width=700&lines=%F0%9F%8E%A3+Project+01%3A+10%2F10+Alerts+Triaged;%F0%9F%8E%A3+Project+02%3A+3%2F3+Challenges+Solved;%F0%9F%94%B4+5+Confirmed+Compromises;%F0%9F%A7%AC+XZ+Supply+Chain+Backdoor+Exposed" alt="Typing SVG" />
 
 | 🎯 Metric | 📈 Achievement |
 |:----------|:--------------:|
-| **Alerts Triaged** | **10 / 10** |
+| **Alerts Triaged (P1)** | **10 / 10** |
+| **Challenges Solved (P2)** | **3 / 3** |
 | **True Positives** | **10** |
-| **Critical Severity** | **4** |
 | **Confirmed Compromises** | **5** |
 | **Ransomware Contained** | **2** |
 | **Supply Chain Attacks** | **1 (XZ Backdoor)** |
-| **Perfect Playbook Scores** | **2** |
-| **Total IOCs Extracted** | **45+** |
-| **MITRE Techniques Mapped** | **45+** |
-| **Screenshots Documented** | **80+** |
+| **Threat Actors Identified** | **1 (GOLD CABIN)** |
+| **Total IOCs Extracted** | **70+** |
+| **MITRE Techniques Mapped** | **55+** |
+| **Screenshots Documented** | **95+** |
 
 </div>
 
@@ -95,11 +95,11 @@
 |:--------------:|:---------------:|:-------------:|:----------------:|
 | ✅ | ✅ | ✅ | ✅ |
 
-| 💰 Ransomware | 🧬 Supply Chain |
-|:-------------:|:---------------:|
-| ✅ | ✅ |
+| 💰 Ransomware | 🧬 Supply Chain | 🎭 Phishing Kits | 🧠 Threat Intel |
+|:-------------:|:---------------:|:----------------:|:--------------:|
+| ✅ | ✅ | ✅ | ✅ |
 
-**10 Different Attack Categories Investigated** 🔥
+**12 Different Attack Categories Investigated** 🔥
 
 </div>
 
@@ -145,7 +145,7 @@ Every investigation includes:
 ✅ **Redacted screenshots** · ✅ **Structured triage logs** · ✅ **MITRE ATT&CK mappings**
 ✅ **IOC extraction** · ✅ **Lessons learned**
 
-*80+ screenshots across Project 01*
+*95+ screenshots across Projects 01 & 02*
 
 </div>
 
@@ -166,8 +166,9 @@ Every investigation includes:
 
 ```
 soc-analyst-journey/
-├── projects/              ← 14 hands-on project writeups
-│   └── 01-live-soc-monitoring/   ✅ COMPLETE
+├── projects/              
+│   ├── 01-live-soc-monitoring/   ✅ COMPLETE
+│   └── 02-phishing-analysis/     ✅ COMPLETE
 ├── templates/             ← Reusable investigation templates
 ├── detections/            ← Sigma & YARA rules
 ├── writeups/              ← Long-form analysis
@@ -181,7 +182,7 @@ soc-analyst-journey/
 
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&pause=1000&color=36BCF7&center=true&vCenter=true&width=700&lines=%F0%9F%94%84+Project+02%3A+Phishing+Email+Analysis;%F0%9F%9B%A0%EF%B8%8F+Platform%3A+CyberDefenders;%F0%9F%8E%AF+Deep-dive+into+email+forensics" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&pause=1000&color=36BCF7&center=true&vCenter=true&width=700&lines=%F0%9F%94%84+Project+03%3A+Incident+Response+Simulation;%F0%9F%9B%A0%EF%B8%8F+Platform%3A+TryHackMe;%F0%9F%8E%AF+Deep-dive+into+SIEM+%26+Incident+Response" alt="Typing SVG" />
 
 </div>
 
