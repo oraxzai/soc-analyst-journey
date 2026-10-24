@@ -8,3 +8,14 @@ PhishStrike,SHA256,bf7628695c2df7a3020034a065397592a1f8850e59f9a448b555bc1c8c639
 PhishStrike,SHA256,453fb1c4b3b48361fa8a67dcedf1eaec39449cb5a146a7770c63d1dc0d7562f0,CoinMiner Payload
 PhishStrike,File,Jzwvix.exe,BitRAT persistence executable
 PhishStrike,Telegram ID,bot5610920260,AsyncRAT exfiltration channel
+GrabThePhisher,File,metamask.php,Phishing kit backend script
+GrabThePhisher,Domain,api.sypexgeo.net,IP geolocation API
+GrabThePhisher,Telegram ID,5442785564,Attacker's Telegram Chat ID
+GrabThePhisher,Token,5457463144:AAG8t4k7e2ew3tTi0IBShcWbSia0Irvxm10,Telegram Bot Token
+GrabThePhisher,Alias,j1j1b1s@m3r0,Attacker alias in code comments
+IcedID,File,document-1982481273.xlsm,Malicious Excel macro document
+IcedID,File,3003.gif,Malicious payload disguised as GIF
+IcedID,Domain,tajushariya.com,Hosting domain for the GIF
+IcedID,Registrar,NameCheap,Registrar for malicious domains
+IcedID,Threat Actor,GOLD CABIN,Associated threat group
+IcedID,Function,URLDownloadToFileA,API used to download payload
